@@ -4,5 +4,23 @@
         "name": "Witchy",
         "slug": "witchy",
         "icon": "fa-magic"
+    },
+    {
+        "id": 2,
+        "name": "Weather",
+        "slug": "weather",
+        "icon": "fa-cloud-sun"
+    },
+    {
+        "id": 3,
+        "name": "Traveling",
+        "slug": "traveling",
+        "icon": "fa-plane"
+    },
+    {
+        "id": 4,
+        "name": "Transparent Sticky Notes",
+        "slug": "transparent-sticky-notes",
+        "icon": "fa-sticky-note"
     }
 ]
