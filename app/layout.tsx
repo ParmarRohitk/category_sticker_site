@@ -13,57 +13,24 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const baseUrl = "https://moviestremtv.com";
-
-// Dynamic metadata function
-export async function generateMetadata({
-  params,
-}: {
-  params: { slug?: string };
-}): Promise<Metadata> {
-  const pathname = params.slug ? `/${params.slug}` : "/"; // Get slug-based dynamic path
-  const canonicalUrl = `${baseUrl}${pathname}`;
-
-  return {
-    title: "Sticker Online Shop | Free Download Unlimited Stickers",
-    description:
-      "Discover a wide range of free stickers, including Witchy, Weather, Traveling, and Transparent Sticky Notes. Download high-quality stickers instantly from Sticker Online Shop.",
-    keywords: [
-      "free stickers",
-      "download stickers",
-      "witchy stickers",
-      "weather stickers",
-      "travel stickers",
-      "transparent sticky notes",
-      "Sticker Online Shop",
-    ],
-    authors: [{ name: "Sticker Online Shop", url: baseUrl }],
-    creator: "Sticker Online Shop Team",
-    publisher: "Sticker Online Shop Inc.",
-    applicationName: "Sticker Online Shop",
-    robots: "index, follow",
-    alternates: {
-      canonical: canonicalUrl,
-    },
-    openGraph: {
-      type: "website",
-      url: canonicalUrl,
-      title: "Sticker Online Shop | Free Download Unlimited Stickers",
-      description:
-        "Explore Witchy, Weather, Traveling, and Transparent Sticky Notes stickers. Download high-quality free stickers instantly from Sticker Online Shop.",
-      siteName: "Sticker Online Shop",
-    },
-    twitter: {
-      card: "summary_large_image",
-      title: "Sticker Online Shop | Free Download Unlimited Stickers",
-      description:
-        "Get unlimited free stickers! Download Witchy, Weather, Traveling, and Transparent Sticky Notes stickers instantly.",
-      site: "@stickeronlineshop",
-      creator: "@stickeronlineshop",
-    },
-  };
-}
-
+export const metadata: Metadata = {
+  title: "Sticker Online Shop | Free Download Unlimited Stickers",
+  description:
+    "Discover a wide range of free stickers, including Witchy, Weather, Traveling, and Transparent Sticky Notes. Download high-quality stickers instantly from Sticker Online Shop.",
+  keywords: [
+    "free stickers",
+    "download stickers",
+    "witchy stickers",
+    "weather stickers",
+    "travel stickers",
+    "transparent sticky notes",
+    "Sticker Online Shop",
+  ],
+  creator: "Sticker Online Shop Team",
+  publisher: "Sticker Online Shop Inc.",
+  applicationName: "Sticker Online Shop",
+  robots: "index, follow",
+};
 
 export default function RootLayout({
   children,
