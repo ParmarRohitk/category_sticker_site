@@ -3,24 +3,90 @@
         "id": 1,
         "name": "Witchy",
         "slug": "witchy",
-        "icon": "fa-magic"
+        "icon": "fa-hat-wizard"
     },
     {
         "id": 2,
         "name": "Weather",
         "slug": "weather",
-        "icon": "fa-cloud-sun"
+        "icon": "fa-cloud-sun-rain"
     },
     {
         "id": 3,
         "name": "Traveling",
         "slug": "traveling",
-        "icon": "fa-plane"
+        "icon": "fa-plane-departure"
     },
     {
         "id": 4,
         "name": "Transparent Sticky Notes",
         "slug": "transparent-sticky-notes",
-        "icon": "fa-sticky-note"
+        "icon": "fa-note-sticky"
+    },
+    {
+        "id": 5,
+        "name": "Student",
+        "slug": "student",
+        "icon": "fa-user-graduate"
+    },
+    {
+        "id": 6,
+        "name": "Religious",
+        "slug": "religious",
+        "icon": "fa-praying-hands"
+    },
+    {
+        "id": 7,
+        "name": "Quotes and Labels",
+        "slug": "quotes-and-labels",
+        "icon": "fa-quote-right"
+    },
+    {
+        "id": 8,
+        "name": "Healthcare",
+        "slug": "healthcare",
+        "icon": "fa-briefcase-medical"
+    },
+    {
+        "id": 9,
+        "name": "House Chores",
+        "slug": "house-chores",
+        "icon": "fa-broom"
+    },
+    {
+        "id": 10,
+        "name": "Envelope",
+        "slug": "envelope",
+        "icon": "fa-envelope"
+    },
+    {
+        "id": 12,
+        "name": "Cute Digital Sticker",
+        "slug": "cute-digital-sticker",
+        "icon": "fa-heart"
+    },
+    {
+        "id": 13,
+        "name": "Christian 2",
+        "slug": "christian-2",
+        "icon": "fa-cross"
+    },
+    {
+        "id": 14,
+        "name": "Background",
+        "slug": "background",
+        "icon": "fa-image"
+    },
+    {
+        "id": 15,
+        "name": "Affirmation",
+        "slug": "affirmation",
+        "icon": "fa-brain"
+    },
+    {
+        "id": 16,
+        "name": "Aesthetic",
+        "slug": "aesthetic",
+        "icon": "fa-palette"
     }
 ]
