@@ -1,4 +1,4 @@
-name: Deploy to FTP (Hostinger)
+name: Deploy Next.js Build to FTP Server
 
 on:
   push:
@@ -9,27 +9,90 @@ permissions:
   contents: write
 
 jobs:
-  ftp_deploy:
+  build_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout source code
+      # Step 1: Checkout code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Install and build your Next.js app (if needed)
-      - name: Install and build
-        run: |
-          npm install
-          npm run build
+      # Step 2: Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: "20"
 
-      # Step 3: Upload using SamKirkland FTP Deploy Action
-      - name: Upload to FTP
+      # Step 3: Install dependencies
+      - name: Install dependencies
+        run: npm install
+
+      # Step 4: Build Next.js app
+      - name: Build Next.js app
+        run: npm run build
+
+      # Step 5: Create out.zip from public folder & add unzip.php
+      - name: Create out.zip and unzip.php
+        run: |
+          mkdir -p deploy_package
+          cp -r public/* deploy_package/
+
+          echo "<?php
+          \$zipFile = 'out.zip';
+          \$extractTo = __DIR__;
+          if (!file_exists(\$zipFile)) {
+              die('❌ Zip file not found.');
+          }
+          \$zip = new ZipArchive;
+          if (\$zip->open(\$zipFile) === TRUE) {
+              \$zip->extractTo(\$extractTo);
+              \$zip->close();
+              echo '✅ Extracted. 🗑️ Deleted zip.';
+              unlink(\$zipFile);
+          } else {
+              echo '❌ Failed to unzip.';
+          }
+          ?>" > deploy_package/unzip.php
+
+          cd deploy_package && zip -r ../out.zip . && cd ..
+          mkdir -p ftp_upload
+          mv out.zip ftp_upload/
+          cp deploy_package/unzip.php ftp_upload/
+
+      # Step 6: Clear existing files on FTP server
+      - name: Clear existing files on FTP server
+        run: |
+          ftp -inv ${{ secrets.FTP_SERVER }} <<EOF
+          user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}
+          cd public_html
+          mdelete *
+          rmdir * || true
+          quit
+          EOF
+
+      # Step 7: Upload only out.zip and unzip.php to FTP
+      - name: Upload out.zip and unzip.php to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./out
+          local-dir: ./ftp_upload
           server-dir: /public_html
           dry-run: false
+
+      # Step 8: Set permissions
+      - name: Set permissions for uploaded files
+        run: |
+          ftp -inv ${{ secrets.FTP_SERVER }} <<EOF
+          user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}
+          cd public_html
+          chmod 755 out.zip
+          chmod 644 unzip.php
+          quit
+          EOF
+
+      # Step 9: Manual unzip instruction
+      - name: Echo unzip URL
+        run: |
+          echo "🌐 Visit https://yourdomain.com/unzip.php to extract the site"
