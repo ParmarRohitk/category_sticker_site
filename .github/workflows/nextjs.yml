@@ -77,8 +77,8 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./ftp_upload
-          server-dir: /public_html
+          local-dir: ./ftp_upload/
+          server-dir: /public_html/
           dry-run: false
 
       # Step 8: Set permissions
