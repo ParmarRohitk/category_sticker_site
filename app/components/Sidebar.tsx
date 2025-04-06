@@ -39,7 +39,7 @@ export default function Sidebar() {
                 </button>
 
                 <Link href="/" className="text-xl font-bold mb-4">
-                    <i className="fas fa-home w-6 h-6" /> Home
+                    <i className="fas fa-home w-6 h-6" /> Moviestremtv
                 </Link>
                 <hr />
                 <h2 className="text-lg font-bold mb-4 mt-3">

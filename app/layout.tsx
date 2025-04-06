@@ -1,7 +1,9 @@
-import type { Metadata } from "next";
+'use client'
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
+import { Footer } from "./components/Footer";
+import { usePathname } from "next/navigation";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,30 +15,23 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "Sticker Online Shop | Free Download Unlimited Stickers",
-  description:
-    "Discover a wide range of free stickers, including Witchy, Weather, Traveling, and Transparent Sticky Notes. Download high-quality stickers instantly from Sticker Online Shop.",
-  keywords: [
-    "free stickers",
-    "download stickers",
-    "witchy stickers",
-    "weather stickers",
-    "travel stickers",
-    "transparent sticky notes",
-    "Sticker Online Shop",
-  ],
-  creator: "Sticker Online Shop Team",
-  publisher: "Sticker Online Shop Inc.",
-  applicationName: "Sticker Online Shop",
-  robots: "index, follow",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const pathname = usePathname();
+
+  const canonicalUrl = `https://moviestremtv.com${pathname}`;
+
+  const segments = pathname.split('/').filter(Boolean);
+  const lastSegment = segments[segments.length - 1] || 'Moviestremtv';
+
+  const formattedTitle = lastSegment
+    .replace(/-/g, ' ')
+    .replace(/\b\w/g, (char) => char.toUpperCase());
+
   return (
     <html lang="en">
       <head>
@@ -44,6 +39,47 @@ export default function RootLayout({
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
+
+        <title>{`${formattedTitle} | Digital Sticker`}</title>
+        <meta
+          name="description"
+          content={`Browse and download customizable ${formattedTitle} digital stickers for messages, social media, and more. Find free and premium designs for every occasion on our easy-to-use site.`}
+        />
+        <meta
+          name="keywords"
+          content="free stickers, download stickers, witchy stickers, weather stickers, travel stickers, transparent sticky notes, Sticker Online Shop"
+        />
+        <meta name="creator" content="Sticker Online Shop Team" />
+        <meta name="publisher" content="Sticker Online Shop Inc." />
+        <meta name="application-name" content="Sticker Online Shop" />
+        <meta name="robots" content="index, follow" />
+
+        {/* Dynamic Canonical Link */}
+        <link rel="canonical" href={canonicalUrl} />
+
+        {/* <!-- Google tag (gtag.js) --> */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-TTXR6Z08V2"></script>
+        <script>
+          {`
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-TTXR6Z08V2');
+      `}
+        </script>
+
+        {/* Google Search Console */}
+        <meta name="google-site-verification" content="DEwIi8zEBdTw-mVGi0I4YyqCJX30lP5HE3mtdFtQ5zs" />
+
+        {/* Apple Touch Icon */}
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+
+        {/* Favicon Icons */}
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+
+        {/* Web Manifest */}
+        <link rel="manifest" href="/site.webmanifest" />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex`}
@@ -52,9 +88,7 @@ export default function RootLayout({
         <main className="flex-1 p-6">
           {children}
           {/* Footer */}
-          <footer className="sticky bottom-0 mt-12 text-center text-gray-500 text-sm">
-            <p>&copy; 2025 Sticker Shop. All rights reserved.</p>
-          </footer>
+          <Footer />
         </main>
       </body>
     </html>
