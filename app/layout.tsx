@@ -40,7 +40,7 @@ export default function RootLayout({
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         />
 
-        <title>{`${formattedTitle} | Digital Sticker`}</title>
+        <title>{`${formattedTitle} Digital Sticker`}</title>
         <meta
           name="description"
           content={`Browse and download customizable ${formattedTitle} digital stickers for messages, social media, and more. Find free and premium designs for every occasion on our easy-to-use site.`}
