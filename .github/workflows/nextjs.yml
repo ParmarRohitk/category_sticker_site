@@ -1,4 +1,4 @@
-name: Deploy Next.js Build to FTP Server
+name: Deploy to FTP (Hostinger)
 
 on:
   push:
@@ -9,67 +9,28 @@ permissions:
   contents: write
 
 jobs:
-  build_and_deploy:
+  ftp_deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # Step 1: Checkout code
+      # Step 1: Checkout source code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # Step 2: Set up Node.js
-      #- name: Set up Node.js
-      #  uses: actions/setup-node@v3
-      #  with:
-      #    node-version: '20'
-
-      # Step 3: Install dependencies
-      #- name: Install dependencies
-      #  run: npm install
-
-      # Step 4: Build Next.js app
-      #- name: Build Next.js app
-      #  run: npm run build
-
-      # Step 5: Create ZIP of build output
-      #- name: Create ZIP of build output
-      #  run: zip -r out.zip out/
-
-      # Step 6: Clear existing files on FTP server
-      - name: Clear existing files on FTP server
+      # Step 2: Install and build your Next.js app (if needed)
+      - name: Install and build
         run: |
-          ftp -inv ${{ secrets.FTP_SERVER }} << EOF
-          user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}
-          mdelete *  # Delete all files in the public_html directory
-          rmdir * || true  # Remove any remaining empty directories
-          quit
-          EOF
+          npm install
+          npm run build
+          npm run export
 
-      # Step 7: Upload ZIP file to FTP server
-      - name: Upload ZIP file to FTP server
+      # Step 3: Upload using SamKirkland FTP Deploy Action
+      - name: Upload to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }} # FTP server (e.g., ftp.example.com)
-          username: ${{ secrets.FTP_USERNAME }} # FTP username
-          password: ${{ secrets.FTP_PASSWORD }} # FTP password
-          local-dir: "./xyz/" # Path to the ZIP file created in Step 5
-          server-dir: "/" # Destination directory on the FTP server
-          dry-run: false # Set to 'false' to perform the actual deployment, 'true' for testing
-
-      # Step 8: Set permissions for the uploaded ZIP file (read and execute)
-      - name: Set execute and read permissions on ZIP file
-        run: |
-          ftp -inv ${{ secrets.FTP_SERVER }} << EOF
-          user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}
-          chmod 755 out.zip  # Give read (4), write (2), and execute (1) permissions to owner, and read (4) and execute (1) permissions to group and others
-          quit
-          EOF
-
-      # Step 9: SSH into the server and extract the ZIP file
-      - name: Extract ZIP on the server
-        run: |
-          ftp -inv ${{ secrets.FTP_SERVER }} << EOF
-          user ${{ secrets.FTP_USERNAME }} ${{ secrets.FTP_PASSWORD }}
-          unzip -o test.zip 
-          quit
-          EOF
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./out
+          server-dir: /public_html
+          dry-run: false
