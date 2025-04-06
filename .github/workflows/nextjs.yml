@@ -22,7 +22,6 @@ jobs:
         run: |
           npm install
           npm run build
-          npm run export
 
       # Step 3: Upload using SamKirkland FTP Deploy Action
       - name: Upload to FTP
